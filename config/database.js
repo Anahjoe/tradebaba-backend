@@ -1,12 +1,13 @@
 const { Pool } = require('pg');
 
 const pool = new Pool({
-  connectionString: process.env.DATABASE_URL,
+  user: process.env.PGUSER || 'postgres',
+  password: process.env.PGPASSWORD || 'postgres',
+  host: process.env.PGHOST || 'localhost',
+  port: process.env.PGPORT || 5432,
+  database: process.env.PGDATABASE || 'railway',
   ssl: { rejectUnauthorized: false }
 });
-
-pool.on('error', (err) => {
-  console.error('Unexpected error on idle client', err);
 });
 
 // Test connection
