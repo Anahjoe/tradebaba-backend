@@ -1,21 +1,23 @@
 const { Pool } = require('pg');
 
 const pool = new Pool({
-  user: process.env.PGUSER || 'postgres',
-  password: process.env.PGPASSWORD || 'postgres',
-  host: process.env.PGHOST || 'localhost',
-  port: process.env.PGPORT || 5432,
-  database: process.env.PGDATABASE || 'railway',
+  user: process.env.PGUSER,
+  password: process.env.PGPASSWORD,
+  host: process.env.PGHOST,
+  port: process.env.PGPORT,
+  database: process.env.PGDATABASE,
   ssl: { rejectUnauthorized: false }
 });
+
+pool.on('error', (err) => {
+  console.error('Pool error:', err);
 });
 
-// Test connection
 pool.query('SELECT NOW()', (err, res) => {
   if (err) {
-    console.error('Database connection failed:', err);
+    console.error('❌ Database connection failed:', err.message);
   } else {
-    console.log('✅ Database connected!', res.rows[0]);
+    console.log('✅ Database connected successfully!');
   }
 });
 
